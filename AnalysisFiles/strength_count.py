@@ -4,6 +4,7 @@
 import pandas as pd
 import re 
 import math 
+import numpy as np
 
 FILENAMES = [
     'cs_data.csv',
@@ -58,19 +59,23 @@ def strength_count(filename):
 	bins_total_m = [0,0,0,0,0,0,0,0,0,0]
 
 	for i in range(len(file['Word count'])): 
-		count = int(file['Word count'][i])
-		
-		string_female = file['Feminine words'][i]
-		string_male = file['Masculine words'][i]
-
-		female_count = len(string_female.split(","))
-		male_count = len(string_male.split(","))
-
-		female_strength = (female_count/count)*100 
-		male_strength = (male_count/count)*100
-
-		female_arr.append(female_strength)
-		male_arr.append(male_strength)
+		try:
+			count = int(file['Word count'][i])
+			
+			string_female = file['Feminine words'][i]
+			string_male = file['Masculine words'][i]
+	
+			female_count = len(string_female.split(","))
+			male_count = len(string_male.split(","))
+	
+			female_strength = (female_count/count)*100 
+			male_strength = (male_count/count)*100
+	
+			female_arr.append(female_strength)
+			male_arr.append(male_strength)
+		except ValueError:
+			female_arr.append(np.nan)
+			male_arr.append(np.nan)
 
 		histogram_strength(female_strength,'f',bins_total_m,bins_total_f)
 		histogram_strength(male_strength,'m',bins_total_m,bins_total_f)
