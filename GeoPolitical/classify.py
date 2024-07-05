@@ -46,30 +46,36 @@ for file in FILENAMES:
     political_list = []
 
     for title in df['Job Title']:
-        found = False
-        for region in REGIONS:
-            for var in province_names[region]:
-                check = ' ' + var + ' '
+        try:
+            found = False
+            for region in REGIONS:
+                for var in province_names[region]:
+                    check = ' ' + var + ' '
+                    if ((check in title) and (not found)):
+                        province_list.append(region)
+                        found = True
+            if not found:
+                province_list.append('Nothing')
+    
+            found = False
+            index=0
+            for city in city_names:
+                check = city
                 if ((check in title) and (not found)):
-                    province_list.append(region)
+                    city_list.append(city)
+                    population_size_list.append(city_sizes[index])
+                    political_list.append(city_politics[index])
                     found = True
-        if not found:
-            province_list.append('Nothing')
-
-        found = False
-        index=0
-        for city in city_names:
-            check = city
-            if ((check in title) and (not found)):
-                city_list.append(city)
-                population_size_list.append(city_sizes[index])
-                political_list.append(city_politics[index])
-                found = True
-            index += 1
-        if not found:
-            city_list.append('Nothing')
-            population_size_list.append('Nothing')
-            political_list.append('Nothing')
+                index += 1
+            if not found:
+                city_list.append('Nothing')
+                population_size_list.append('Nothing')
+                political_list.append('Nothing')
+        except TypeError:
+            province_list.append(np.nan)
+            city_list.append(np.nan)
+            political_list.append(np.nan)
+            population_size_list.append(np.nan)
 
     df = pandas.DataFrame({
         'Job Title' : df['Job Title'],
