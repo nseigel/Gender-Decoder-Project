@@ -37,28 +37,34 @@ for file in FILENAMES:
         masc_words_count.append(0)
 
     for list in fem_words_ad:
-        list = eval(list)
-        index = 0
-        for fem_word in fem_words:
-            found = False
-            for word in list:
-                if word.startswith(fem_word):
-                    found = True
-            if found:
-                fem_words_count[index] = fem_words_count[index] + 1
-            index += 1
+        try:
+            list = eval(list)
+            index = 0
+            for fem_word in fem_words:
+                found = False
+                for word in list:
+                    if word.startswith(fem_word):
+                        found = True
+                if found:
+                    fem_words_count[index] = fem_words_count[index] + 1
+                index += 1
+        except TypeError:
+            pass
 
     for list in masc_words_ad:
-        list = eval(list)
-        index = 0
-        for masc_word in masc_words:
-            found = False
-            for word in list:
-                if word.startswith(masc_word):
-                    found = True
-            if found:
-                masc_words_count[index] = masc_words_count[index] + 1
-            index += 1
+        try:
+            list = eval(list)
+            index = 0
+            for masc_word in masc_words:
+                found = False
+                for word in list:
+                    if word.startswith(masc_word):
+                        found = True
+                if found:
+                    masc_words_count[index] = masc_words_count[index] + 1
+                index += 1
+        except TypeError:
+            pass
 
     titles = df['Job Title'].tolist()
     total_ads = len(titles)
